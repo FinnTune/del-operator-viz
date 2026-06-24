@@ -110,7 +110,7 @@ del-operator-viz/
 
 ## Setup
 
-Tested on Python 3.11+. On your Arch box, `python` likely points at 3.14 — that's fine, NumPy and Matplotlib have wheels for it now.
+Tested on Python 3.12+ (NumPy 2.5+). On your Arch box, `python` likely points at 3.14 — that's fine.
 
 ```bash
 git clone https://github.com/FinnTune/del-operator-viz.git
