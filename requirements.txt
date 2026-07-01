@@ -1,5 +1,5 @@
 numpy>=2.5.0
 matplotlib>=3.11.0
 sympy>=1.14.0
-jupyterlab>=4.6.0
+jupyterlab>=4.6.1
 ipykernel>=7.3.0
