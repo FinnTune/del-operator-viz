@@ -12,6 +12,9 @@ The goal is *not* to be a fast vector-calculus library (NumPy, SciPy, and SymPy 
 | `02_divergence.ipynb` | ∇·F | vector field → scalar field (source/sink strength) |
 | `03_curl.ipynb` | ∇×F | vector field → vector field (axis & rate of rotation) |
 | `04_real_data.ipynb` | All three | applied to terrain elevation and 2D fluid flow |
+| `05_identities.ipynb` | ∇×(∇f), ∇·(∇×F) | verifies both are identically zero |
+| `06_fd_error.ipynb` | — | measures central-vs-forward finite-difference convergence order |
+| `07_3d_visualization.ipynb` | All three | the 2D examples, lifted into 3D |
 
 Each notebook follows the same four-step structure: **derive by hand → verify with SymPy → compute numerically with NumPy → visualize with Matplotlib.**
 
@@ -99,7 +102,10 @@ del-operator-viz/
 │   ├── 01_gradient.ipynb
 │   ├── 02_divergence.ipynb
 │   ├── 03_curl.ipynb
-│   └── 04_real_data.ipynb
+│   ├── 04_real_data.ipynb
+│   ├── 05_identities.ipynb
+│   ├── 06_fd_error.ipynb
+│   └── 07_3d_visualization.ipynb
 ├── src/
 │   ├── __init__.py
 │   ├── operators.py           ← numerical implementations

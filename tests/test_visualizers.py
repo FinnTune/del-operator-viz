@@ -11,6 +11,9 @@ import numpy as np
 import pytest
 
 from src.visualizers import (
+    plot_curl_3d,
+    plot_divergence_3d,
+    plot_gradient_3d,
     plot_scalar_with_gradient,
     plot_vector_with_curl,
     plot_vector_with_divergence,
@@ -29,6 +32,15 @@ def small_grid():
     y = np.linspace(-1, 1, 12)
     X, Y = np.meshgrid(x, y)
     return X, Y
+
+
+@pytest.fixture
+def small_grid_3d():
+    x = np.linspace(-1, 1, 6)
+    y = np.linspace(-1, 1, 5)
+    z = np.linspace(-1, 1, 4)
+    X, Y, Z = np.meshgrid(x, y, z, indexing="ij")
+    return X, Y, Z
 
 
 class TestPlotScalarWithGradient:
@@ -104,4 +116,64 @@ class TestPlotVectorWithCurl:
         X, Y = small_grid
         title = "Curl view"
         fig = plot_vector_with_curl(X, Y, -Y, X, np.ones_like(X), title=title)
+        assert fig.axes[0].get_title() == title
+
+
+class TestPlotGradient3D:
+    def test_returns_figure_with_3d_axes(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        f = X**2 + Y**2 + Z**2
+        fig = plot_gradient_3d(X, Y, Z, 2 * X, 2 * Y, 2 * Z, f=f)
+        assert isinstance(fig, plt.Figure)
+        assert fig.axes[0].name == "3d"
+
+    def test_works_without_scalar_field(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        fig = plot_gradient_3d(X, Y, Z, X, Y, Z)
+        assert isinstance(fig, plt.Figure)
+
+    def test_custom_title(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        title = "Custom 3D gradient"
+        fig = plot_gradient_3d(
+            X, Y, Z, np.ones_like(X), np.ones_like(Y), np.ones_like(Z), title=title
+        )
+        assert fig.axes[0].get_title() == title
+
+
+class TestPlotDivergence3D:
+    def test_returns_figure_with_3d_axes(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        div = 3 * np.ones_like(X)
+        fig = plot_divergence_3d(X, Y, Z, X, Y, Z, div)
+        assert isinstance(fig, plt.Figure)
+        assert fig.axes[0].name == "3d"
+
+    def test_symmetric_color_limits(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        div = X - Y
+        fig = plot_divergence_3d(X, Y, Z, X, Y, Z, div)
+        sc = fig.axes[0].collections[0]
+        assert sc.get_clim()[0] == pytest.approx(-sc.get_clim()[1])
+
+    def test_custom_title(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        title = "Divergence in 3D"
+        fig = plot_divergence_3d(X, Y, Z, X, Y, Z, X + Y + Z, title=title)
+        assert fig.axes[0].get_title() == title
+
+
+class TestPlotCurl3D:
+    def test_returns_figure_with_3d_axes(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        Fx, Fy, Fz = -Y, X, np.zeros_like(Z)
+        curl_x, curl_y, curl_z = np.zeros_like(X), np.zeros_like(Y), 2 * np.ones_like(Z)
+        fig = plot_curl_3d(X, Y, Z, Fx, Fy, Fz, curl_x, curl_y, curl_z)
+        assert isinstance(fig, plt.Figure)
+        assert fig.axes[0].name == "3d"
+
+    def test_custom_title(self, small_grid_3d):
+        X, Y, Z = small_grid_3d
+        title = "Curl in 3D"
+        fig = plot_curl_3d(X, Y, Z, X, Y, Z, X, Y, Z, title=title)
         assert fig.axes[0].get_title() == title
