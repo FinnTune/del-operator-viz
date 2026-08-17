@@ -15,6 +15,7 @@ The goal is *not* to be a fast vector-calculus library (NumPy, SciPy, and SymPy 
 | `05_identities.ipynb` | ∇×(∇f), ∇·(∇×F) | verifies both are identically zero |
 | `06_fd_error.ipynb` | — | measures central-vs-forward finite-difference convergence order |
 | `07_3d_visualization.ipynb` | All three | the 2D examples, lifted into 3D |
+| `08_heat_equation.ipynb` | ∇²f | Laplacian as an edge detector, then an animated heat-diffusion simulation |
 
 Each notebook follows the same four-step structure: **derive by hand → verify with SymPy → compute numerically with NumPy → visualize with Matplotlib.**
 
@@ -75,6 +76,17 @@ Constant rotation about +z, like a rigid disk spinning counter-clockwise.
 
 In **2D**, curl reduces to a scalar: `(∇×F)_z = ∂F_y/∂x − ∂F_x/∂y`.
 
+### 4. Laplacian — `∇²f` (scalar in, scalar out)
+
+$$\nabla^2 f = \nabla \cdot (\nabla f) = \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} + \frac{\partial^2 f}{\partial z^2}$$
+
+Measures how a point compares to the average of its immediate neighbors: positive means the point is a local dip, negative means a local bump, zero (a *harmonic* point) means it already sits at that average. This is the operator behind diffusion — see `08_heat_equation.ipynb`.
+
+**Worked example.** For `f(x, y) = x² + y²`:
+
+- `∂²f/∂x² = 2`, `∂²f/∂y² = 2`
+- So `∇²f = 4` — constant and positive, matching a bowl that's concave up everywhere.
+
 ## Numerical recipe (the bridge from math to code)
 
 Analytical derivatives need a formula for the field. On real data we only have values on a grid, so we approximate derivatives with **central finite differences**:
@@ -88,6 +100,7 @@ From there:
 - **Gradient** is two `np.gradient` calls (one per axis).
 - **Divergence** is the sum of `np.gradient(F_x, axis=0) + np.gradient(F_y, axis=1)`.
 - **Curl (2D)** is `np.gradient(F_y, axis=0) − np.gradient(F_x, axis=1)`.
+- **Laplacian** is divergence of gradient — literally `divergence_2d(*gradient_2d(f, dx, dy), dx, dy)`.
 
 The `src/operators.py` module wraps these so you can see exactly what's happening — no black box.
 
@@ -105,7 +118,8 @@ del-operator-viz/
 │   ├── 04_real_data.ipynb
 │   ├── 05_identities.ipynb
 │   ├── 06_fd_error.ipynb
-│   └── 07_3d_visualization.ipynb
+│   ├── 07_3d_visualization.ipynb
+│   └── 08_heat_equation.ipynb
 ├── src/
 │   ├── __init__.py
 │   ├── operators.py           ← numerical implementations

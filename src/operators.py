@@ -123,3 +123,23 @@ def curl_3d(
     curl_y = dFx_dz - dFz_dx
     curl_z = dFy_dx - dFx_dy
     return curl_x, curl_y, curl_z
+
+
+# ---------------------------------------------------------------------------
+# Laplacian: scalar field f  →  scalar field ∇²f = ∇·(∇f)
+# ---------------------------------------------------------------------------
+
+def laplacian_2d(f: np.ndarray, dx: float, dy: float) -> np.ndarray:
+    """Compute ∇²f = ∂²f/∂x² + ∂²f/∂y² for a 2D scalar field.
+
+    Implemented literally as divergence of gradient — the composition
+    notebook 05 shows is the one identity that *doesn't* vanish.
+    """
+    df_dx, df_dy = gradient_2d(f, dx, dy)
+    return divergence_2d(df_dx, df_dy, dx, dy)
+
+
+def laplacian_3d(f: np.ndarray, dx: float, dy: float, dz: float) -> np.ndarray:
+    """Compute ∇²f = ∂²f/∂x² + ∂²f/∂y² + ∂²f/∂z² for a 3D scalar field."""
+    df_dx, df_dy, df_dz = gradient_3d(f, dx, dy, dz)
+    return divergence_3d(df_dx, df_dy, df_dz, dx, dy, dz)

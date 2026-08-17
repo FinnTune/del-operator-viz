@@ -12,6 +12,8 @@ from src.operators import (
     divergence_3d,
     gradient_2d,
     gradient_3d,
+    laplacian_2d,
+    laplacian_3d,
 )
 
 
@@ -171,6 +173,48 @@ class TestCurl3D:
         assert curl_z.shape == X.shape
 
 
+class TestLaplacian2D:
+    def test_quadratic_bowl_matches_analytical(self, grid_2d):
+        X, Y, dx, dy = grid_2d
+        f = X**2 + Y**2
+        lap = laplacian_2d(f, dx, dy)
+        sl = _interior_slice(2)
+        np.testing.assert_allclose(lap[sl], 4.0, rtol=1e-2, atol=1e-2)
+
+    def test_linear_field_is_zero(self, grid_2d):
+        X, Y, dx, dy = grid_2d
+        f = 3 * X - 2 * Y + 5
+        lap = laplacian_2d(f, dx, dy)
+        sl = _interior_slice(2)
+        np.testing.assert_allclose(lap[sl], 0.0, atol=1e-1)
+
+    def test_matches_divergence_of_gradient(self, grid_2d):
+        X, Y, dx, dy = grid_2d
+        f = np.sin(X) * np.cos(Y)
+        df_dx, df_dy = gradient_2d(f, dx, dy)
+        expected = divergence_2d(df_dx, df_dy, dx, dy)
+        np.testing.assert_allclose(laplacian_2d(f, dx, dy), expected)
+
+    def test_output_shape_matches_input(self, grid_2d):
+        X, Y, dx, dy = grid_2d
+        lap = laplacian_2d(X * Y, dx, dy)
+        assert lap.shape == X.shape
+
+
+class TestLaplacian3D:
+    def test_quadratic_bowl_matches_analytical(self, grid_3d):
+        X, Y, Z, dx, dy, dz = grid_3d
+        f = X**2 + Y**2 + Z**2
+        lap = laplacian_3d(f, dx, dy, dz)
+        sl = _interior_slice(3)
+        np.testing.assert_allclose(lap[sl], 6.0, rtol=1e-2, atol=1e-2)
+
+    def test_output_shape_matches_input(self, grid_3d):
+        X, Y, Z, dx, dy, dz = grid_3d
+        lap = laplacian_3d(X * Y * Z, dx, dy, dz)
+        assert lap.shape == X.shape
+
+
 class TestVectorCalculusIdentities:
     def test_curl_of_gradient_is_zero(self, grid_2d):
         X, Y, dx, dy = grid_2d
@@ -210,6 +254,8 @@ class TestPackageExports:
             "divergence_3d",
             "curl_2d",
             "curl_3d",
+            "laplacian_2d",
+            "laplacian_3d",
             "plot_scalar_with_gradient",
             "plot_vector_with_divergence",
             "plot_vector_with_curl",

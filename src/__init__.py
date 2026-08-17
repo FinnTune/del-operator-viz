@@ -7,6 +7,8 @@ from .operators import (
     divergence_3d,
     curl_2d,
     curl_3d,
+    laplacian_2d,
+    laplacian_3d,
 )
 from .visualizers import (
     plot_scalar_with_gradient,
@@ -21,6 +23,8 @@ __all__ = [
     "divergence_3d",
     "curl_2d",
     "curl_3d",
+    "laplacian_2d",
+    "laplacian_3d",
     "plot_scalar_with_gradient",
     "plot_vector_with_divergence",
     "plot_vector_with_curl",
