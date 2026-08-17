@@ -16,6 +16,7 @@ The goal is *not* to be a fast vector-calculus library (NumPy, SciPy, and SymPy 
 | `06_fd_error.ipynb` | — | measures central-vs-forward finite-difference convergence order |
 | `07_3d_visualization.ipynb` | All three | the 2D examples, lifted into 3D |
 | `08_heat_equation.ipynb` | ∇²f | Laplacian as an edge detector, then an animated heat-diffusion simulation |
+| `09_greens_theorem.ipynb` | ∇×F, ∇·F | verifies Green's theorem: boundary integrals equal interior curl/divergence sums |
 
 Each notebook follows the same four-step structure: **derive by hand → verify with SymPy → compute numerically with NumPy → visualize with Matplotlib.**
 
@@ -119,7 +120,8 @@ del-operator-viz/
 │   ├── 05_identities.ipynb
 │   ├── 06_fd_error.ipynb
 │   ├── 07_3d_visualization.ipynb
-│   └── 08_heat_equation.ipynb
+│   ├── 08_heat_equation.ipynb
+│   └── 09_greens_theorem.ipynb
 ├── src/
 │   ├── __init__.py
 │   ├── operators.py           ← numerical implementations
