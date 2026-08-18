@@ -1,1 +1,2 @@
 pytest>=9.1.1
+nbconvert>=7.16.0
