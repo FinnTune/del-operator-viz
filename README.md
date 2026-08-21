@@ -20,6 +20,7 @@ The goal is *not* to be a fast vector-calculus library (NumPy, SciPy, and SymPy 
 | `10_helmholtz_decomposition.ipynb` | ∇·F, ∇×F | reconstructs F from only its divergence and curl via an FFT Poisson solve |
 | `11_polar_coordinates.ipynb` | ∇f, ∇·F, ∇×F | derives and verifies the same three operators in polar (r, θ) coordinates |
 | `12_wave_equation.ipynb` | ∇²f | leapfrog simulation of a vibrating drum membrane, verified against an analytical standing-wave mode |
+| `13_harmonic_conjugates.ipynb` | ∇f, ∇²f | connects Cauchy-Riemann equations to gradient orthogonality between a harmonic function pair |
 
 Each notebook follows the same four-step structure: **derive by hand → verify with SymPy → compute numerically with NumPy → visualize with Matplotlib.**
 
@@ -127,7 +128,8 @@ del-operator-viz/
 │   ├── 09_greens_theorem.ipynb
 │   ├── 10_helmholtz_decomposition.ipynb
 │   ├── 11_polar_coordinates.ipynb
-│   └── 12_wave_equation.ipynb
+│   ├── 12_wave_equation.ipynb
+│   └── 13_harmonic_conjugates.ipynb
 ├── src/
 │   ├── __init__.py
 │   ├── operators.py           ← numerical implementations
