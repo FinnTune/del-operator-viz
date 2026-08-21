@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import numpy as np
-import pytest
 
 from src.operators import (
     curl_2d,
@@ -41,7 +40,7 @@ class TestGradient2D:
         assert df_dy.shape == f.shape
 
     def test_constant_field_is_zero(self, grid_2d):
-        X, Y, dx, dy = grid_2d
+        X, _Y, dx, dy = grid_2d
         f = np.full_like(X, 7.0)
         df_dx, df_dy = gradient_2d(f, dx, dy)
         np.testing.assert_allclose(df_dx, 0.0, atol=1e-10)
@@ -140,7 +139,7 @@ class TestCurl2D:
         np.testing.assert_allclose(curl[sl], 0.0, atol=1e-2)
 
     def test_shear_field(self, grid_2d):
-        X, Y, dx, dy = grid_2d
+        _X, Y, dx, dy = grid_2d
         Fx = Y
         Fy = np.zeros_like(Y)
         curl = curl_2d(Fx, Fy, dx, dy)
@@ -155,7 +154,7 @@ class TestCurl2D:
 
 class TestCurl3D:
     def test_rotation_about_z(self, grid_3d):
-        X, Y, Z, dx, dy, dz = grid_3d
+        X, Y, _Z, dx, dy, dz = grid_3d
         Fx = -Y
         Fy = X
         Fz = np.zeros_like(X)
